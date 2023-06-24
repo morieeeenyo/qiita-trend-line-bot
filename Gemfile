@@ -47,3 +47,5 @@ group :development do
 end
 
 gem 'line-bot-api'
+
+gem 'dotenv-rails'
