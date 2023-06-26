@@ -19,11 +19,19 @@ module Api
         return if message_events.length == 0
         message_events.each do |event|
           next if event.type != Line::Bot::Event::MessageType::Text
-          message = {
-            type: "text",
-            text: event.message["text"]
-          }
-          client.reply_message(event['replyToken'], message)
+          qiita_trends_api_response = Api::Qiita::Trend.call
+          qiita_trends_json = JSON.parse(qiita_trends_api_response.body)
+
+          # トレンド上位5記事のみ抽出
+          # TODO: そもそもの取得件数をAPI側で制御できないか
+          message = 5.times.map do |i|
+            {
+              type: "text",
+              text: qiita_trends_json[i]["node"]["linkUrl"]
+            }
+          end
+          client.reply_message(event['replyToken'],  message)
+
         end
       end
 
