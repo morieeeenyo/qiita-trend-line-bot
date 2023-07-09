@@ -1,13 +1,9 @@
 name: Deploy work flow for Amazon EKS
 
 on:
-  pull_request:
-    branches:
-      - main
-    types: [closed]
   push:
     branches:
-      - master
+      - main
 
 permissions:
   id-token: write
