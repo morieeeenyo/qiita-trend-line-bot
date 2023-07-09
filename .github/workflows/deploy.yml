@@ -1,0 +1,48 @@
+name: Deploy work flow for Amazon EKS
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: ap-northeast-1
+  WEBAPP_TAG: ${{ github.sha }}
+
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to ECR
+      id: login-ecr
+      run: aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com
+
+    - name: webapp push to ECR
+      id: build-image-webapp
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      run: |
+        docker build -t 572919087216.dkr.ecr.ap-northeast-1.amazonaws.com/qiita-trend-line-bot-rails:latest .
+        docker tag qiita-trend-line-bot-rails:latest 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com/qiita-trend-line-bot-rails:latest
+        docker push 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com/qiita-trend-line-bot-rails:latest
+    - name: EKS Deploy
+      run: |
+        aws eks update-kubeconfig --name test_eks --region ap-northeast-1
+        kubectl apply -f deploy/k8s/config/rails_config.yaml
+        kubectl apply -f deploy/k8s/deployment.yaml
