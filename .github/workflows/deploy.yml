@@ -50,5 +50,5 @@ jobs:
       run: |
         echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/kube_config
         export KUBECONFIG=/tmp/kube_config
-        kubectl apply -f deploy/k8s/config/rails_config.yaml
-        kubectl apply -f deploy/k8s/deployment.yaml
+        kubectl apply -f deploy/k8s/config/rails_config.yml
+        kubectl apply -f deploy/k8s/deployment.yml
