@@ -14,5 +14,5 @@ variable "vpc_cidr" {
 variable "eks_name" {
   description = "EKS Cluster Name"
   type        = string
-  default     = "qiita-trend-line-bot-cluster"
+  default     = "qiita-trend-line-bot-cluster-2"
 }

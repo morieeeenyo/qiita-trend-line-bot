@@ -22,9 +22,9 @@ resource "aws_internet_gateway" "igw" {
 resource "aws_subnet" "public" {
   count                   = 2
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = cidrsubnet(aws_vpc.vpc.cidr_block, 8, count.index)
+  cidr_block              = cidrsubnet(aws_vpc.vpc.cidr_block, 8, count.index + 4)
   availability_zone       = data.aws_availability_zones.az.names[count.index]
-  map_public_ip_on_launch = false
+  map_public_ip_on_launch = true
 
   tags = {
     Name = "vpc-${var.name}-public-subnet-${count.index + 1}"
