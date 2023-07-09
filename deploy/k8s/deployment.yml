@@ -8,15 +8,15 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: rails-eks
+      app: qiita-trend-line-bot-rails
   template:
     metadata:
       labels:
-        app: rails-eks
+        app: qiita-trend-line-bot-rails
     spec:
       containers:
-      - name: rails-eks
-        image: 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com/rails-eks:latest
+      - name: qiita-trend-line-bot-rails
+        image: 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com/qiita-trend-line-bot-rails:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
@@ -35,7 +35,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-type: "alb"
 spec:
   selector:
-    app: rails-eks
+    app: qiita-trend-line-bot-rails
   ports:
   - name: http
     port: 80
