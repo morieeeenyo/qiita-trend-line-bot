@@ -12,6 +12,7 @@ permissions:
 env:
   AWS_REGION: ap-northeast-1
   WEBAPP_TAG: ${{ github.sha }}
+  WEBAPP_CONTAINER_NAME: rails-eks
 
 jobs:
   deploy:
@@ -38,9 +39,8 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
-        docker build -t 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com/qiita-trend-line-bot-rails:latest .
-        docker tag qiita-trend-line-bot-rails:latest 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com/qiita-trend-line-bot-rails:latest
-        docker push 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com/qiita-trend-line-bot-rails:latest
+        docker build -t 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com/$WEBAPP_CONTAINER_NAME:latest .
+        docker push 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com/$WEBAPP_CONTAINER_NAME:latest
     - name: EKS Deploy
       run: |
         aws eks update-kubeconfig --name test_eks --region ap-northeast-1
