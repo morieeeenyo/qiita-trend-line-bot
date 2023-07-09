@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: rails-eks
-        image: 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com/qiita-trend-line-bot-rails:latest
+        image: 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com/rails-eks:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
