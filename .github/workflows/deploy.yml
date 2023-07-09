@@ -38,7 +38,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
-        docker build -t 572919087216.dkr.ecr.ap-northeast-1.amazonaws.com/qiita-trend-line-bot-rails:latest .
+        docker build -t 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com/qiita-trend-line-bot-rails:latest .
         docker tag qiita-trend-line-bot-rails:latest 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com/qiita-trend-line-bot-rails:latest
         docker push 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com/qiita-trend-line-bot-rails:latest
     - name: EKS Deploy
