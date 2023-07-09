@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rails-config
+data:
+  RAILS_ENV: development
+  APP_DATABASE_HOST: rds-qiita-trend-line-bot-2.c2dl5k6pvurs.ap-northeast-1.rds.amazonaws.com
+  DB_USER: admin
+  DB_HOST: administrator
+  MYSQL_ROOT_PASSWORD: togomoriadmin
