@@ -45,11 +45,14 @@ jobs:
         docker push 024259377595.dkr.ecr.ap-northeast-1.amazonaws.com/$WEBAPP_CONTAINER_NAME:latest
     - name: Install kubectl
       uses: azure/setup-kubectl@v1
+      with:
+          version: 'v1.20.0'  # Replace with the appropriate version
     - name: EKS Deploy
       env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       run: |
         echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/kube_config
         export KUBECONFIG=/tmp/kube_config
+        sed -i 's/apiVersion: client.authentication.k8s.io\/v1alpha1/apiVersion: client.authentication.k8s.io\/v1/g' /tmp/kube_config
         kubectl apply -f deploy/k8s/config/rails_config.yml
         kubectl apply -f deploy/k8s/deployment.yml
