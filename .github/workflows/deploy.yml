@@ -53,6 +53,6 @@ jobs:
       run: |
         echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/kube_config
         export KUBECONFIG=/tmp/kube_config
-        sed -i 's/apiVersion: client.authentication.k8s.io\/v1alpha1/apiVersion: client.authentication.k8s.io\/v1/g' /tmp/kube_config
+        sed -i 's/apiVersion: client.authentication.k8s.io\/v1/apiVersion: client.authentication.k8s.io\/v1beta1/g' /tmp/kube_config
         kubectl apply -f deploy/k8s/config/rails_config.yml
         kubectl apply -f deploy/k8s/deployment.yml
